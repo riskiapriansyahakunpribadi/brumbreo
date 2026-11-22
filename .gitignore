@@ -1,0 +1,15 @@
+# NAMA: Daftar Abaikan Git
+# FUNGSI: Mencegah folder hasil pemasangan paket, berkas build, dan rahasia lokal ikut terunggah ke Git.
+# CARA MENGUBAH: Tambahkan pola berkas baru di baris bawah bila memakai alat tambahan.
+# CARA MENAMBAH: Tulis nama berkas atau folder per baris.
+# CARA MENGHAPUS: Hapus baris hanya jika berkas tersebut memang aman disimpan di repositori.
+
+node_modules/
+dist/
+.vercel/
+.env
+.env.local
+.env.*.local
+.DS_Store
+Thumbs.db
+*.log

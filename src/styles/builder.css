@@ -1,0 +1,379 @@
+/*
+NAMA: Gaya Bagian Pembuat Cangkir (Builder)
+FUNGSI: Mengatur tata letak bagian latar cokelat espresso pekat, panggung lingkaran pratinjau gelas, empat langkah kustomisasi, ringkasan pilihan, dan tombol pesan kuning madu.
+CARA MENGUBAH: Sesuaikan ukuran lingkaran pratinjau di .builder-stage-circle atau tata letak kolom pada .builder-grid.
+CARA MENAMBAH: Opsi baru dari data/builder.js otomatis mengalir rapi di dalam .builder-chips atau .builder-swatches.
+CARA MENGHAPUS: Jangan dihapus selama bagian racik aktif di index.html.
+*/
+
+.builder-section {
+  position: relative;
+  z-index: 3;
+  background-color: var(--color-espresso);
+  color: var(--color-ink-on-dark);
+  padding-block: clamp(4.25rem, 8vw, 6.75rem);
+  overflow-x: clip;
+}
+
+.builder-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: clamp(2.25rem, 5vw, 3.75rem);
+}
+
+.builder-eyebrow {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-on-dark-muted);
+}
+
+.builder-title {
+  color: var(--color-ink-on-dark);
+}
+
+.builder-title__pill {
+  margin-inline: 0.16em;
+}
+
+.builder-lead {
+  font-size: var(--text-base);
+  color: var(--color-ink-on-dark-muted);
+  max-width: 42ch;
+}
+
+/* Tata letak dua kolom: pratinjau lengket di kiri, empat langkah pilihan di kanan. */
+.builder-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: start;
+  gap: clamp(2rem, 4.5vw, 4rem);
+}
+
+.builder-preview-col {
+  position: sticky;
+  top: calc(var(--nav-height) + 1.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+/* Lingkaran panggung pratinjau mengikuti komposisi video tanpa efek glow berlebih. */
+.builder-stage-circle {
+  position: relative;
+  width: min(100%, 26rem);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background-color: var(--color-espresso-surface);
+  border: 1.5px solid rgba(251, 246, 238, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.builder-cup-host {
+  width: 92%;
+  aspect-ratio: 1 / 1;
+}
+
+.builder-cup-host svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Kartu ringkasan kecil tepat di bawah lingkaran pratinjau agar pilihan selalu terbaca. */
+.builder-preview-meta {
+  width: min(100%, 26rem);
+  padding: 0.9rem 1.15rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-espresso-surface);
+  border: 1px solid rgba(251, 246, 238, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: center;
+}
+
+.builder-preview-meta__title {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 800;
+  color: var(--color-ink-on-dark);
+}
+
+.builder-preview-meta__spec {
+  font-size: var(--text-xs);
+  color: var(--color-ink-on-dark-muted);
+  line-height: 1.5;
+}
+
+/* Panel kanan: empat langkah berurutan + ringkasan harga + tombol pesan. */
+.builder-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.builder-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-border-dark-subtle);
+}
+
+.builder-step__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+}
+
+.builder-step__label {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--color-ink-on-dark);
+}
+
+.builder-step__active {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-ink-on-dark-muted);
+}
+
+/* Langkah 1: lingkaran warna gelas dengan area sentuh minimal 48 x 48 px. */
+.builder-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+.swatch-btn {
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 2.5px solid rgba(251, 246, 238, 0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.swatch-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-cream);
+}
+
+.swatch-btn:active {
+  transform: scale(0.94);
+}
+
+.swatch-btn.is-selected {
+  border-color: var(--color-honey-accent);
+  box-shadow: 0 0 0 3px var(--color-espresso), 0 0 0 5px var(--color-honey-accent);
+}
+
+.swatch-btn__dot {
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-espresso);
+}
+
+/* Langkah 2, 3, 4: tombol pilihan kapsul dengan kontras tinggi di atas espresso pekat. */
+.builder-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.choice-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.85rem;
+  padding: 0.55rem 1.05rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-espresso-surface);
+  border: 1.5px solid var(--color-border-dark);
+  color: var(--color-ink-on-dark);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.choice-btn:hover {
+  background-color: #4B2D20;
+  border-color: var(--color-cream);
+  transform: translateY(-1px);
+}
+
+.choice-btn:active {
+  transform: scale(0.97);
+}
+
+.choice-btn.is-selected {
+  background-color: var(--color-cream);
+  border-color: var(--color-cream);
+  color: var(--color-espresso);
+}
+
+.choice-btn__dot {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(43, 24, 16, 0.35);
+}
+
+.choice-btn__extra {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-ink-on-dark-muted);
+}
+
+.choice-btn.is-selected .choice-btn__extra {
+  color: var(--color-milk-brown);
+}
+
+.builder-option-svg {
+  flex-shrink: 0;
+}
+
+/* Blok penutup builder: total harga dan tombol aksi pesan langsung WhatsApp serta keranjang. */
+.builder-checkout {
+  padding: 1.3rem 1.4rem;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-espresso-surface);
+  border: 1px solid rgba(251, 246, 238, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1.05rem;
+}
+
+.builder-price-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.builder-price-label {
+  font-size: var(--text-sm);
+  color: var(--color-ink-on-dark-muted);
+  font-weight: 600;
+}
+
+.builder-price-value {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 1.3rem + 1vw, 2.25rem);
+  font-weight: 800;
+  color: var(--color-ink-on-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.builder-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.builder-wa-btn {
+  flex: 1 1 15rem;
+  min-height: 3.1rem;
+  font-size: var(--text-base);
+}
+
+.builder-cart-btn {
+  flex: 1 1 12.5rem;
+  min-height: 3.1rem;
+  border: 1.5px solid var(--color-ink-on-dark-muted);
+  background-color: transparent;
+  color: var(--color-ink-on-dark);
+}
+
+.builder-cart-btn:hover {
+  background-color: rgba(251, 246, 238, 0.12);
+  border-color: var(--color-cream);
+  transform: translateY(-2px);
+}
+
+.builder-cart-btn.is-added {
+  background-color: var(--color-success-bg);
+  border-color: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.builder-feedback {
+  min-height: 1.25rem;
+  font-size: var(--text-xs);
+  color: var(--color-ink-on-dark-muted);
+}
+
+/* Kondisi tablet dan laptop kecil: susun satu kolom agar pilihan tidak sempit. */
+@media (max-width: 920px) {
+  .builder-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .builder-preview-col {
+    position: static;
+  }
+
+  .builder-stage-circle {
+    width: min(100%, 22rem);
+  }
+}
+
+/* Kondisi HP: lingkaran pratinjau ringkas di atas, tombol pilihan nyaman disentuh. */
+@media (max-width: 640px) {
+  .builder-section {
+    padding-block: var(--space-xl);
+  }
+
+  .builder-stage-circle {
+    width: min(74vw, 17.5rem);
+    padding: 1rem;
+  }
+
+  .builder-step__head {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .builder-checkout {
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+  }
+
+  .builder-actions {
+    flex-direction: column;
+  }
+
+  .builder-wa-btn,
+  .builder-cart-btn {
+    flex: none;
+    width: 100%;
+  }
+}

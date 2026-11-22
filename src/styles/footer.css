@@ -1,0 +1,509 @@
+/*
+NAMA: Gaya Bagian Penutup dan Footer
+FUNGSI: Mengatur latar cokelat espresso pekat, pita uap lembut, judul sapaan, kapsul status buka nyata, tiga kartu informasi miring ringan yang fleksibel terhadap data kosong, tautan sosial, teks raksasa brumbreo. dengan gelas beruang mengintip, dan baris hak cipta.
+CARA MENGUBAH: Sesuaikan ukuran teks merek pada .footer-wordmark atau sudut kemiringan kartu di .footer-card--tilt-left dan .footer-card--tilt-right.
+CARA MENAMBAH: Kartu informasi baru dapat ditambahkan ke dalam .footer-cards; grid otomatis menyesuaikan jumlah kartu aktif.
+CARA MENGHAPUS: Jangan dihapus selama elemen footer aktif di index.html.
+*/
+
+.site-footer {
+  position: relative;
+  z-index: 5;
+  background-color: var(--color-espresso);
+  color: var(--color-ink-on-dark);
+  padding-top: clamp(4.5rem, 9vw, 7.5rem);
+  padding-bottom: clamp(1.75rem, 3.5vw, 2.75rem);
+  border-top: 1px solid var(--color-border-dark-subtle);
+  overflow: hidden;
+}
+
+/* Lengkung uap lembut menjaga kesinambungan motif identitas dari Hero hingga Penutup. */
+.footer-steam-layer {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: min(44rem, 75%);
+  z-index: 0;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  opacity: 0.55;
+  overflow: hidden;
+}
+
+.footer-steam-svg {
+  width: min(100%, 72rem);
+  height: 100%;
+  object-fit: cover;
+}
+
+.footer-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(2.25rem, 4.5vw, 3.75rem);
+}
+
+/* 1. Judul sapaan dan kapsul status buka nyata. */
+.footer-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-sm);
+}
+
+.footer-eyebrow {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-on-dark-muted);
+}
+
+.footer-heading {
+  color: var(--color-ink-on-dark);
+}
+
+.footer-heading__pill {
+  margin-inline-start: 0.16em;
+}
+
+/* Kapsul status buka/tutup statis tanpa titik berkedip, kontras memenuhi WCAG AA. */
+.footer-status {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.05rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  border: 1.5px solid transparent;
+}
+
+.footer-status.is-open {
+  background-color: var(--color-success-bg);
+  color: var(--color-success-text);
+  border-color: #6BC191;
+}
+
+.footer-status.is-closed {
+  background-color: #5C2A22;
+  color: var(--color-ink-on-dark);
+  border-color: #D88A7E;
+}
+
+.footer-status__detail {
+  font-weight: 500;
+  opacity: 0.92;
+}
+
+/* 2. Deretan kartu informasi (lokasi, jam buka, buletin) menyesuaikan jumlah kartu yang punya data. */
+.footer-cards {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(1rem, 2.2vw, 1.65rem);
+}
+
+.footer-cards.is-count-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 52rem;
+}
+
+.footer-cards.is-count-1 {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 32rem;
+}
+
+.footer-card {
+  padding: clamp(1.35rem, 2.5vw, 1.85rem);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-espresso-surface);
+  border: 1.5px solid rgba(251, 246, 238, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+/* Kemiringan halus mengikuti irama tiga kartu pada video saat berjajar di desktop. */
+.footer-cards.is-count-3 .footer-card--tilt-left {
+  transform: rotate(-1.5deg);
+}
+
+.footer-cards.is-count-3 .footer-card--center {
+  transform: translateY(-0.35rem);
+}
+
+.footer-cards.is-count-3 .footer-card--tilt-right {
+  transform: rotate(1.5deg);
+}
+
+.footer-cards.is-count-3 .footer-card:hover,
+.footer-cards.is-count-3 .footer-card:focus-within {
+  transform: rotate(0deg) translateY(-4px);
+}
+
+.footer-card__head {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.footer-card__icon {
+  width: 2.35rem;
+  height: 2.35rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--color-espresso);
+  border: 1px solid rgba(251, 246, 238, 0.22);
+  color: var(--color-candy-pink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--color-ink-on-dark);
+  line-height: 1.15;
+}
+
+.footer-card__text {
+  font-size: var(--text-sm);
+  color: var(--color-ink-on-dark-muted);
+  line-height: 1.58;
+}
+
+.footer-card__note {
+  font-size: var(--text-xs);
+  color: var(--color-ink-on-dark-muted);
+}
+
+.footer-card__link {
+  margin-top: auto;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.5rem 1.05rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-border-dark);
+  color: var(--color-ink-on-dark);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.footer-card__link:hover {
+  background-color: var(--color-cream);
+  border-color: var(--color-cream);
+  color: var(--color-espresso);
+}
+
+.footer-hours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.footer-hours-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem 0.75rem;
+  font-size: var(--text-sm);
+  color: var(--color-ink-on-dark-muted);
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid rgba(251, 246, 238, 0.1);
+}
+
+.footer-hours-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.footer-hours-row__day {
+  font-weight: 600;
+  color: var(--color-ink-on-dark);
+}
+
+.footer-hours-row__time {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Formulir buletin dengan honeypot anti-bot tersembunyi di luar layar. */
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: auto;
+}
+
+.newsletter-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.newsletter-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-ink-on-dark);
+}
+
+.newsletter-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.newsletter-input {
+  width: 100%;
+  min-height: 2.85rem;
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-espresso);
+  border: 1.5px solid var(--color-border-dark);
+  color: var(--color-ink-on-dark);
+  font-size: var(--text-sm);
+}
+
+.newsletter-input::placeholder {
+  color: var(--color-ink-on-dark-muted);
+  opacity: 1;
+}
+
+.newsletter-input[aria-invalid='true'] {
+  border-color: #F28B82;
+}
+
+.newsletter-submit {
+  width: 100%;
+}
+
+.newsletter-status {
+  min-height: 1.35rem;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--color-ink-on-dark-muted);
+}
+
+.newsletter-status.is-success {
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.newsletter-status.is-error {
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-error-bg);
+  color: var(--color-error-text);
+}
+
+/* 3. Deretan tombol kapsul media sosial dan kontak langsung. */
+.footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.social-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.75rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-espresso-surface);
+  border: 1.5px solid var(--color-border-dark);
+  color: var(--color-ink-on-dark);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.social-pill:hover {
+  background-color: var(--color-cream);
+  border-color: var(--color-cream);
+  color: var(--color-espresso);
+  transform: translateY(-2px);
+}
+
+.social-pill:active {
+  transform: scale(0.97);
+}
+
+.social-pill__handle {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-ink-on-dark-muted);
+}
+
+.social-pill:hover .social-pill__handle {
+  color: var(--color-milk-brown);
+}
+
+/* 4. Teks raksasa brumbreo. dengan maskot gelas beruang mengintip dari balik tepi atas huruf. */
+.footer-wordmark-stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: clamp(5.5rem, 12vw, 10.5rem);
+  overflow: hidden;
+}
+
+.footer-peek-cup {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(10rem, 22vw, 18rem);
+  aspect-ratio: 1 / 1;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.footer-peek-cup svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Skala vw menjaga wordmark tetap satu baris rapi di 320 px maupun pembesaran teks 200 persen. */
+.footer-wordmark {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 14.5vw, 12.25rem);
+  font-weight: 800;
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  color: var(--color-cream);
+  user-select: none;
+  padding-top: 0.06em;
+  background: linear-gradient(
+    to bottom,
+    rgba(43, 24, 16, 0) 0%,
+    rgba(43, 24, 16, 0) 28%,
+    var(--color-espresso) 68%
+  );
+}
+
+.footer-wordmark__dot {
+  color: var(--color-candy-pink);
+}
+
+/* 5. Baris hak cipta dan tautan kembali ke atas. */
+.footer-bottom {
+  width: 100%;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border-dark-subtle);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  font-size: var(--text-xs);
+  color: var(--color-ink-on-dark-muted);
+}
+
+.footer-top-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border-dark-subtle);
+  color: var(--color-ink-on-dark);
+  font-weight: 700;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.footer-top-link:hover {
+  background-color: var(--color-cream);
+  color: var(--color-espresso);
+}
+
+/* Kondisi tablet dan laptop kecil: kartu melurus agar tidak berdesakan. */
+@media (max-width: 960px) {
+  .footer-cards,
+  .footer-cards.is-count-2 {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 34rem;
+  }
+
+  .footer-cards.is-count-3 .footer-card--tilt-left,
+  .footer-cards.is-count-3 .footer-card--center,
+  .footer-cards.is-count-3 .footer-card--tilt-right {
+    transform: none;
+  }
+}
+
+/* Kondisi HP: rapikan jarak atas, tumpuk baris hak cipta di tengah, jaga wordmark tidak meluap. */
+@media (max-width: 640px) {
+  .site-footer {
+    padding-top: var(--space-xl);
+  }
+
+  .footer-card {
+    border-radius: var(--radius-md);
+  }
+
+  .footer-wordmark-stage {
+    padding-top: clamp(4.5rem, 21vw, 6.5rem);
+  }
+
+  .footer-peek-cup {
+    width: clamp(8.75rem, 40vw, 12rem);
+  }
+
+  .footer-wordmark {
+    font-size: clamp(2.4rem, 15.5vw, 4.2rem);
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* Mode pengurangan gerak: hilangkan miring kartu dan animasi masuk. */
+@media (prefers-reduced-motion: reduce) {
+  .footer-cards.is-count-3 .footer-card--tilt-left,
+  .footer-cards.is-count-3 .footer-card--center,
+  .footer-cards.is-count-3 .footer-card--tilt-right {
+    transform: none;
+  }
+}

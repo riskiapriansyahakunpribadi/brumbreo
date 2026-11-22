@@ -1,0 +1,188 @@
+/*
+NAMA: Gaya Bagian Hero dan Panggung Animasi Minuman
+FUNGSI: Mengatur tata letak Hero satu fokus dengan judul bersorot, pita uap kopi, lingkaran panggung pastel, dan maskot gelas beruang utuh yang dapat diklik untuk berganti rasa.
+CARA MENGUBAH: Sesuaikan ukuran gelas pada .hero-mascot-tilt atau lingkaran belakang pada .hero-stage-ring.
+CARA MENAMBAH: Tambahkan penyesuaian layar khusus pada media query di bagian bawah file.
+CARA MENGHAPUS: Jangan dihapus selama bagian beranda aktif di index.html.
+*/
+
+.hero-section {
+  position: relative;
+  z-index: 1;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--color-cream);
+  padding-top: calc(var(--nav-height) + 0.5rem);
+  padding-bottom: clamp(1rem, 2.5dvh, 2rem);
+}
+
+.hero-steam-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-steam-svg {
+  width: min(100%, 72rem);
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: var(--z-base);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(0.65rem, 2dvh, 1.4rem);
+}
+
+.hero-heading-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.55rem;
+  margin-top: clamp(0.25rem, 1.6dvh, 1.25rem);
+}
+
+/* Skala judul menjaga wajah beruang di bawah tetap tampil utuh pada layar laptop standar. */
+.hero-title {
+  font-size: clamp(2.25rem, 1.5rem + 3.4vw, 4.65rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.08em;
+  color: var(--color-espresso);
+}
+
+.hero-line {
+  display: block;
+}
+
+.hero-pill {
+  margin-inline-end: 0.14em;
+  transform-origin: center center;
+}
+
+.hero-subtitle {
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--color-ink-muted);
+  max-width: 40ch;
+  line-height: 1.48;
+}
+
+/* Tanpa bilah menu di bawah, panggung gelas beruang bisa berdiri lebih besar dan tetap penuh di layar. */
+.hero-mascot-stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-block: auto;
+  padding-block: 0.35rem;
+}
+
+.hero-stage-ring {
+  position: absolute;
+  width: min(40vw, 43dvh, 24.5rem);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background-color: #F3E6D8;
+  border: 1.5px solid rgba(43, 24, 16, 0.12);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-mascot-tilt {
+  position: relative;
+  z-index: 2;
+  width: min(44vw, 49dvh, 28rem);
+  aspect-ratio: 1 / 1;
+}
+
+.hero-cup-btn {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.hero-cup-btn:active {
+  transform: scale(0.96);
+}
+
+.hero-cup-btn svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Kondisi tablet dan laptop kecil. */
+@media (max-width: 1024px) and (min-width: 641px) {
+  .hero-section {
+    min-height: 94dvh;
+  }
+
+  .hero-stage-ring {
+    width: min(48vw, 40dvh, 21.5rem);
+  }
+
+  .hero-mascot-tilt {
+    width: min(54vw, 46dvh, 24.5rem);
+  }
+}
+
+/* Kondisi HP: wajah beruang dan lingkaran pastel menjadi pusat perhatian utama tanpa sesak. */
+@media (max-width: 640px) {
+  .hero-section {
+    min-height: 92dvh;
+    padding-top: calc(var(--nav-height) + 0.4rem);
+    padding-bottom: 1.5rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.05rem, 9vw, 2.85rem);
+  }
+
+  .hero-subtitle {
+    font-size: var(--text-sm);
+    max-width: 31ch;
+  }
+
+  .hero-stage-ring {
+    width: min(68vw, 38dvh, 17rem);
+  }
+
+  .hero-mascot-tilt {
+    width: min(78vw, 44dvh, 19.75rem);
+  }
+}
+
+/* Layar pendek lanskap atau pembesaran teks 200 persen. */
+@media (max-height: 580px) and (min-width: 641px) {
+  .hero-section {
+    min-height: auto;
+    padding-bottom: 1.5rem;
+  }
+
+  .hero-stage-ring {
+    width: 14.5rem;
+  }
+
+  .hero-mascot-tilt {
+    width: 16.5rem;
+  }
+}

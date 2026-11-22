@@ -1,0 +1,322 @@
+/*
+NAMA: Gaya Bagian Testimoni Marquee
+FUNGSI: Mengatur bagian ulasan berlatar krem lembut, kartu pastel dengan sudut miring ringan, jalur marquee dua baris berlawanan arah, jeda saat kursor/sentuh/fokus, serta tata letak grid untuk mode reduced motion.
+CARA MENGUBAH: Sesuaikan kecepatan gulir dasar pada .marquee-track atau sudut miring kartu lewat variabel --card-tilt.
+CARA MENAMBAH: Untuk menambah warna pastel kartu baru, buat kelas .testimonial-card.tone-nama di kelompok warna pastel.
+CARA MENGHAPUS: Jangan dihapus selama bagian tentang aktif di index.html.
+*/
+
+.testimonials-section {
+  position: relative;
+  z-index: 4;
+  background-color: var(--color-cream);
+  color: var(--color-espresso);
+  padding-block: clamp(4.25rem, 8vw, 6.75rem);
+  overflow-x: clip;
+}
+
+.testimonials-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-xs);
+  margin-bottom: clamp(2rem, 4.5vw, 3.25rem);
+}
+
+.testimonials-eyebrow {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.testimonials-title {
+  color: var(--color-espresso);
+}
+
+.testimonials-title-pill {
+  margin-inline-start: 0.14em;
+}
+
+.testimonials-controls {
+  margin-top: 0.4rem;
+}
+
+/* Tombol jeda fungsional agar pengunjung keyboard dan sentuh bebas menghentikan guliran kapan saja. */
+.testimonials-pause-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 1.05rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-border-light);
+  background-color: var(--color-cream-soft);
+  color: var(--color-espresso);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.testimonials-pause-btn:hover {
+  background-color: var(--color-espresso);
+  border-color: var(--color-espresso);
+  color: var(--color-cream);
+}
+
+.testimonials-pause-btn:active {
+  transform: scale(0.97);
+}
+
+/* Wadah dua baris marquee dengan gradasi tepi lembut agar kartu masuk dan keluar tanpa potongan tajam. */
+.testimonials-marquee {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2.2vw, 1.65rem);
+  overflow: hidden;
+  padding-block: 0.75rem;
+}
+
+.testimonials-marquee::before,
+.testimonials-marquee::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(1.5rem, 7vw, 6rem);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.testimonials-marquee::before {
+  left: 0;
+  background: linear-gradient(to right, var(--color-cream), rgba(251, 246, 238, 0));
+}
+
+.testimonials-marquee::after {
+  right: 0;
+  background: linear-gradient(to left, var(--color-cream), rgba(251, 246, 238, 0));
+}
+
+.marquee-row {
+  display: flex;
+  width: 100%;
+  overflow: visible;
+  padding-block: 0.5rem;
+}
+
+/* Gerak marquee berjalan penuh di GPU lewat transform translate3d agar stabil di 60 fps. */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation-name: brumbreo-marquee-left;
+  animation-duration: var(--marquee-duration, 34s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.marquee-row.is-reverse .marquee-track {
+  animation-name: brumbreo-marquee-right;
+}
+
+/* Berhenti halus saat kursor menyorot, disentuh, difokuskan keyboard, atau tombol jeda aktif. */
+.testimonials-marquee:hover .marquee-track,
+.testimonials-marquee:focus-within .marquee-track,
+.testimonials-marquee.is-user-paused .marquee-track,
+.testimonials-marquee.is-touch-paused .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-group {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  padding-inline-end: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* Kartu testimoni pastel miring ringan dengan variasi sudut per kartu agar terasa hidup. */
+.testimonial-card {
+  width: clamp(17rem, 29vw, 23.5rem);
+  flex: 0 0 auto;
+  padding: clamp(1.25rem, 2.2vw, 1.65rem);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid rgba(43, 24, 16, 0.16);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+  transform: rotate(var(--card-tilt, 0deg));
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.testimonial-card:hover,
+.testimonial-card:focus-within {
+  transform: rotate(0deg) translateY(-4px);
+}
+
+/* Empat warna pastel selaras dengan parade minuman; kontras terhadap teks #2B1810 di atas 12,7:1. */
+.testimonial-card.tone-cream {
+  background-color: #F3E6D8;
+}
+
+.testimonial-card.tone-pink {
+  background-color: #FBE1E8;
+}
+
+.testimonial-card.tone-lavender {
+  background-color: #EAE2FA;
+}
+
+.testimonial-card.tone-mint {
+  background-color: #DFF2E4;
+}
+
+.testimonial-quote {
+  font-size: var(--text-base);
+  font-weight: 500;
+  line-height: 1.58;
+  color: var(--color-espresso);
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.testimonial-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--color-espresso);
+  color: var(--color-cream);
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.testimonial-author-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.testimonial-name {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: 800;
+  color: var(--color-espresso);
+  line-height: 1.2;
+}
+
+.testimonial-role {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: #4A3226;
+  line-height: 1.35;
+}
+
+@keyframes brumbreo-marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes brumbreo-marquee-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Kondisi tablet dan laptop kecil. */
+@media (max-width: 960px) {
+  .testimonial-card {
+    width: clamp(16.5rem, 42vw, 21rem);
+  }
+}
+
+/* Kondisi HP: kartu lebih ringkas dan gradasi tepi dipersempit agar teks tidak tertutup. */
+@media (max-width: 640px) {
+  .testimonials-section {
+    padding-block: var(--space-xl);
+  }
+
+  .testimonials-marquee::before,
+  .testimonials-marquee::after {
+    width: 1.25rem;
+  }
+
+  .testimonial-card {
+    width: min(78vw, 19rem);
+    border-radius: var(--radius-md);
+  }
+}
+
+/* Mode pengurangan gerak: hentikan marquee, sembunyikan salinan ganda, dan tampilkan ulasan asli sebagai grid tenang. */
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-controls {
+    display: none;
+  }
+
+  .testimonials-marquee {
+    overflow: visible;
+    padding-inline: var(--container-pad);
+    max-width: var(--container-max);
+    margin-inline: auto;
+  }
+
+  .testimonials-marquee::before,
+  .testimonials-marquee::after {
+    display: none;
+  }
+
+  .marquee-row {
+    display: block;
+    padding-block: 0;
+  }
+
+  .marquee-track {
+    display: block;
+    width: 100%;
+    animation: none;
+    transform: none;
+  }
+
+  .marquee-group.is-clone {
+    display: none;
+  }
+
+  .marquee-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17.5rem), 1fr));
+    gap: 1rem;
+    padding-inline-end: 0;
+  }
+
+  .testimonial-card {
+    width: 100%;
+    transform: none;
+  }
+
+  .testimonial-card:hover,
+  .testimonial-card:focus-within {
+    transform: none;
+  }
+}

@@ -1,0 +1,70 @@
+<!--
+NAMA: Dokumen Utama Brumbreo
+FUNGSI: Kerangka HTML semantik untuk seluruh bagian halaman (navigasi, hero dengan adegan animasi minuman otomatis, parade, pembuat cangkir, testimoni, penutup, dan laci keranjang).
+CARA MENGUBAH: Ubah tag title, meta description, atau teks judul utama di dalam section beranda.
+CARA MENAMBAH: Tambahkan section baru di dalam elemen main dengan id unik dan judul h2.
+CARA MENGHAPUS: Hapus elemen section tertentu bersama impor modul JS dan CSS yang terkait di src/main.js.
+-->
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brumbreo, Kedai Kopi Hangat Berkarakter Beruang</title>
+    <meta
+      name="description"
+      content="Kedai kopi Brumbreo menyajikan kopi susu madu, minuman dingin berkarakter, dan racikan cangkir beruang sesuai seleramu."
+    />
+    <meta name="theme-color" content="#FBF6EE" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Bricolage Grotesque dipilih karena lekuk geometrisnya selaras dengan siluet bulat beruang; Plus Jakarta Sans menjaga keterbacaan teks bahasa Indonesia. -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#konten-utama">Lewati ke konten utama</a>
+
+    <header id="situs-header" class="site-header"></header>
+
+    <main id="konten-utama" tabindex="-1">
+      <section id="beranda" class="hero-section" aria-labelledby="hero-judul">
+        <div class="hero-steam-layer" id="hero-steam" aria-hidden="true"></div>
+
+        <div class="container hero-inner">
+          <div class="hero-heading-wrap">
+            <h1 id="hero-judul" class="display-title hero-title">
+              <span class="hero-line">
+                <span class="title-pill hero-pill">Brumbreo</span> Kopi
+              </span>
+              <span class="hero-line">Hangat Beruang</span>
+            </h1>
+            <p class="hero-subtitle">
+              Kopi susu madu, racikan dingin harian, dan cangkir beruang yang dibuat sesuai seleramu.
+            </p>
+          </div>
+
+          <div class="hero-mascot-stage" id="hero-mascot-stage">
+            <div class="hero-stage-ring" id="hero-stage-ring" aria-hidden="true"></div>
+            <div class="hero-mascot-tilt" id="hero-mascot-tilt"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="menu" class="parade-section" aria-label="Parade minuman"></section>
+
+      <section id="racik" class="builder-section" aria-label="Pembuat cangkir"></section>
+
+      <section id="tentang" class="testimonials-section" aria-label="Kata pelanggan" hidden></section>
+    </main>
+
+    <footer id="kontak" class="site-footer"></footer>
+
+    <div id="laci-keranjang" class="cart-root"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

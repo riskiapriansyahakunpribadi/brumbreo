@@ -1,0 +1,176 @@
+/*
+NAMA: Gaya Dasar dan Aksesibilitas
+FUNGSI: Menyediakan wadah tata letak, tipografi utama, jarak aman lompat jangkar, indikator fokus keyboard, tombol standar, dan dukungan prefers-reduced-motion.
+CARA MENGUBAH: Sesuaikan jarak wadah, gaya tombol, atau warna cincin fokus melalui token di tokens.css.
+CARA MENAMBAH: Tambahkan kelas utilitas yang dipakai lebih dari dua bagian halaman di sini.
+CARA MENGHAPUS: Hapus kelas tertentu hanya jika tidak dipakai lagi oleh HTML maupun berkas CSS bagian.
+*/
+
+.container {
+  width: min(100% - (var(--container-pad) * 2), var(--container-max));
+  margin-inline: auto;
+}
+
+/* Memberi ruang aman di atas bagian berjangkar agar tidak tertutup bilah navigasi tetap saat diakses lewat tautan atau keyboard. */
+section[id],
+footer[id] {
+  scroll-margin-top: calc(var(--nav-height) + 0.5rem);
+}
+
+#beranda,
+#menu {
+  scroll-margin-top: 0;
+}
+
+/* Tautan lompat khusus pengguna keyboard dan pembaca layar. */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: var(--z-skip);
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-espresso);
+  color: var(--color-ink-on-dark);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  transform: translateY(-220%);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* Teks khusus pembaca layar yang tetap terbaca teknologi bantu tanpa mengganggu visual. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Fokus keyboard tegas di latar terang dan gelap; outline tidak pernah dihilangkan begitu saja. */
+:focus-visible {
+  outline: 3px solid var(--color-milk-brown);
+  outline-offset: 3px;
+}
+
+.surface-dark :focus-visible,
+.builder-section :focus-visible,
+.site-footer :focus-visible {
+  outline-color: var(--color-honey-accent);
+}
+
+/* Jarak baris 1.16 memberi ruang bersih agar kotak sorot tidak menyentuh ekor huruf baris lain, termasuk saat teks diperbesar 200 persen. */
+.display-title {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  font-weight: 800;
+  line-height: 1.16;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.lead-text {
+  font-size: var(--text-lg);
+  color: var(--color-ink-muted);
+  max-width: 44ch;
+  line-height: 1.55;
+}
+
+/* Kotak sorot kata kunci mengikuti irama judul utama di video. */
+.title-pill {
+  display: inline-block;
+  padding: 0.04em 0.34em 0.09em;
+  border-radius: var(--radius-md);
+  background-color: var(--color-milk-brown);
+  color: var(--color-cream);
+  transform: rotate(-1.6deg);
+  vertical-align: baseline;
+}
+
+.title-pill--pink {
+  background-color: var(--color-candy-pink);
+  color: var(--color-espresso);
+}
+
+/* Tombol dasar menjamin area sentuh minimal 44 x 44 px dan umpan balik tekan :active. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  padding: 0.72rem 1.45rem;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  line-height: 1.2;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn--primary {
+  background-color: var(--color-honey-accent);
+  color: var(--color-espresso);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-honey-hover);
+  transform: translateY(-2px);
+}
+
+.btn--dark {
+  background-color: var(--color-espresso);
+  color: var(--color-cream);
+}
+
+.btn--dark:hover {
+  background-color: var(--color-milk-brown);
+  transform: translateY(-2px);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Menghormati pengaturan pengguna yang meminta pengurangan gerak. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

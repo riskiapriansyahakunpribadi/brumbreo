@@ -1,0 +1,424 @@
+/*
+NAMA: Gaya Bilah Navigasi dan Pencarian
+FUNGSI: Mengatur tata letak bilah navigasi mengambang, logo dua baris, menu tengah, pencarian aktif beserta panel hasil, tombol keranjang, serta menu khusus tablet dan HP dengan area sentuh minimal 44 x 44 px.
+CARA MENGUBAH: Sesuaikan lebar kolom pencarian atau warna latar saat tergulir melalui variabel di tokens.css.
+CARA MENAMBAH: Tambahkan gaya item aksi baru di dalam .nav-actions.
+CARA MENGHAPUS: Jangan dihapus selama modul navSearch.js aktif di halaman.
+*/
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  padding-block: 0.75rem;
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+}
+
+/* Saat halaman mulai tergulir, latar krem solid menjaga kontras teks navigasi di atas bagian terang maupun gelap. */
+.site-header.is-scrolled {
+  background-color: rgba(251, 246, 238, 0.96);
+  border-bottom-color: var(--color-border-subtle);
+}
+
+.site-nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-md);
+  min-height: 3.25rem;
+}
+
+/* Logo bertumpuk dua baris meniru proporsi ringkas pada video. */
+.brand-logo {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding-inline: 0.15rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--color-espresso);
+}
+
+.brand-logo__sub {
+  color: var(--color-milk-brown);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(0.35rem, 1.4vw, 1.35rem);
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-espresso);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+.nav-link:hover {
+  color: var(--color-milk-brown);
+  background-color: rgba(122, 75, 49, 0.08);
+}
+
+.nav-link:active {
+  transform: scale(0.97);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.625rem;
+}
+
+/* Wadah pencarian kapsul gelap mengikuti siluet bilah kanan di video. */
+.nav-search {
+  position: relative;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: clamp(12.25rem, 18vw, 15.75rem);
+  min-height: 2.75rem;
+  padding: 0 0.2rem 0 0.9rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-espresso);
+  color: var(--color-cream);
+}
+
+.search-field:focus-within {
+  outline: 3px solid var(--color-milk-brown);
+  outline-offset: 2px;
+}
+
+.search-field__icon {
+  flex-shrink: 0;
+  color: var(--color-ink-on-dark-muted);
+}
+
+.search-field__input {
+  width: 100%;
+  min-width: 0;
+  min-height: 2.75rem;
+  border: 0;
+  background: transparent;
+  color: var(--color-cream);
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.search-field__input::placeholder {
+  color: var(--color-ink-on-dark-muted);
+  opacity: 1;
+}
+
+.search-field__input:focus {
+  outline: none;
+}
+
+.search-field__input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Tombol bersihkan memenuhi area sentuh minimal 44 x 44 px. */
+.search-field__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  color: var(--color-cream);
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.search-field__clear:hover {
+  background-color: rgba(251, 246, 238, 0.16);
+}
+
+.search-field__clear:active {
+  transform: scale(0.94);
+}
+
+.search-field__clear:focus-visible {
+  outline-color: var(--color-honey-accent);
+}
+
+/* Panel hasil pencarian mengambang, memakai satu dari dua bayangan terukur yang diizinkan. */
+.search-panel {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 0;
+  width: min(22rem, calc(100vw - 2rem));
+  max-height: min(24rem, 62dvh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.65rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-float);
+  z-index: var(--z-popover);
+}
+
+.search-panel__heading {
+  padding: 0.3rem 0.65rem 0.5rem;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-ink-muted);
+}
+
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.search-result-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 2.9rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-sm);
+  text-align: left;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.search-result-btn:hover,
+.search-result-btn.is-active {
+  background-color: var(--color-cream-soft);
+}
+
+.search-result-btn:active {
+  transform: scale(0.99);
+}
+
+.search-result-btn__main {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.search-result-btn__swatch {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-espresso);
+}
+
+.search-result-btn__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.search-result-btn__name {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-espresso);
+}
+
+.search-result-btn__tag {
+  font-size: var(--text-xs);
+  color: var(--color-ink-muted);
+}
+
+.search-result-btn__price {
+  flex-shrink: 0;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-milk-brown);
+}
+
+.search-empty {
+  padding: 0.85rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+}
+
+.search-empty__reset {
+  align-self: flex-start;
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-espresso);
+  color: var(--color-cream);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.search-empty__reset:hover {
+  background-color: var(--color-milk-brown);
+}
+
+/* Tombol ikon bulat gelap untuk keranjang, pencarian HP, dan menu HP. */
+.nav-icon-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-espresso);
+  color: var(--color-cream);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.nav-icon-btn:hover {
+  background-color: var(--color-milk-brown);
+  transform: translateY(-1px);
+}
+
+.nav-icon-btn:active {
+  transform: scale(0.95);
+}
+
+.nav-cart-badge {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding-inline: 0.3rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-honey-accent);
+  color: var(--color-espresso);
+  border: 2px solid var(--color-cream);
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.nav-search-toggle,
+.nav-menu-toggle {
+  display: none;
+}
+
+/* Panel navigasi khusus layar sempit agar menu mudah dijangkau ibu jari. */
+.mobile-nav-panel {
+  margin-top: 0.65rem;
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-float);
+}
+
+.mobile-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  min-height: 2.9rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: var(--text-base);
+  color: var(--color-espresso);
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link:active {
+  background-color: var(--color-cream-soft);
+}
+
+/* Titik patah tablet dan laptop kecil: menu berpindah ke panel agar tidak saling desak. */
+@media (max-width: 960px) {
+  .site-nav {
+    grid-template-columns: auto 1fr;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-menu-toggle {
+    display: inline-flex;
+  }
+}
+
+/* Titik patah HP: kolom pencarian tampil penuh di bawah header saat ikon pencarian ditekan. */
+@media (max-width: 640px) {
+  .site-header {
+    padding-block: 0.55rem;
+  }
+
+  .nav-actions {
+    gap: 0.5rem;
+  }
+
+  .nav-search {
+    position: static;
+  }
+
+  .nav-search-toggle {
+    display: inline-flex;
+  }
+
+  .search-field {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.45rem);
+    left: var(--container-pad);
+    right: var(--container-pad);
+    width: auto;
+    z-index: var(--z-popover);
+  }
+
+  .nav-search.is-mobile-open .search-field {
+    display: flex;
+  }
+
+  .search-panel {
+    position: absolute;
+    top: calc(100% + 3.85rem);
+    left: var(--container-pad);
+    right: var(--container-pad);
+    width: auto;
+  }
+}

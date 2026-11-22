@@ -1,0 +1,82 @@
+/*
+NAMA: Reset CSS Aman Aksesibilitas
+FUNGSI: Menyamakan perilaku bawaan antar browser tanpa menghapus indikator fokus atau menghambat pembesaran teks.
+CARA MENGUBAH: Tambahkan penyesuaian elemen HTML dasar hanya bila benar-benar dibutuhkan lintas halaman.
+CARA MENAMBAH: Letakkan aturan elemen global baru di bawah aturan yang sudah ada.
+CARA MENGHAPUS: Jangan dihapus agar ukuran kotak dan gambar tetap konsisten di semua perangkat.
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  overflow-x: clip;
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+ul,
+ol {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+[hidden] {
+  display: none !important;
+}

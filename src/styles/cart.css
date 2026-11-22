@@ -1,0 +1,286 @@
+/*
+NAMA: Gaya Laci Keranjang Belanja
+FUNGSI: Mengatur tampilan latar redup, laci geser kanan dengan scroll terisolasi, keadaan kosong, daftar item keranjang, pengatur jumlah minimal 44 x 44 px, dan tombol pesan WhatsApp.
+CARA MENGUBAH: Ubah lebar maksimum laci pada .cart-drawer atau warna tombol aksi di bagian .cart-footer.
+CARA MENAMBAH: Tambahkan gaya catatan tambahan di dalam .cart-item bila diperlukan.
+CARA MENGHAPUS: Jangan dihapus selama tombol keranjang, parade, dan pembuat cangkir aktif.
+*/
+
+.cart-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-drawer-backdrop);
+  background-color: rgba(43, 24, 16, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+.cart-root.is-open .cart-backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-drawer);
+  width: min(26.5rem, 100vw);
+  background-color: var(--color-cream);
+  color: var(--color-espresso);
+  border-left: 1px solid var(--color-border-subtle);
+  box-shadow: var(--shadow-float);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.cart-root.is-open .cart-drawer {
+  transform: translateX(0);
+}
+
+.cart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.2rem 1.4rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.cart-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.cart-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-cream-soft);
+  color: var(--color-espresso);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.cart-close-btn:hover {
+  background-color: var(--color-espresso);
+  color: var(--color-cream);
+}
+
+.cart-close-btn:active {
+  transform: scale(0.95);
+}
+
+.cart-body {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.25rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-empty {
+  margin: auto 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.5rem 0.5rem;
+}
+
+.cart-empty__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 800;
+}
+
+.cart-empty__desc {
+  font-size: var(--text-sm);
+  color: var(--color-ink-muted);
+  max-width: 28ch;
+}
+
+.cart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.cart-item {
+  padding: 0.95rem 1rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-cream-soft);
+  border: 1px solid var(--color-border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cart-item__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.cart-item__name {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.cart-item__note {
+  margin-top: 0.2rem;
+  font-size: var(--text-xs);
+  color: var(--color-ink-muted);
+  line-height: 1.45;
+}
+
+.cart-item__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  color: var(--color-ink-muted);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.cart-item__remove:hover {
+  background-color: rgba(43, 24, 16, 0.08);
+  color: var(--color-espresso);
+}
+
+.cart-item__remove:active {
+  transform: scale(0.95);
+}
+
+.cart-item__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.cart-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-pill);
+  padding: 0.15rem;
+}
+
+/* Tombol kurang dan tambah memenuhi ukuran sentuh minimal 44 x 44 px. */
+.cart-qty__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  border-radius: var(--radius-pill);
+  color: var(--color-espresso);
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.cart-qty__btn:hover {
+  background-color: var(--color-cream-soft);
+}
+
+.cart-qty__btn:active {
+  transform: scale(0.94);
+}
+
+.cart-qty__value {
+  min-width: 1.65rem;
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-item__subtotal {
+  font-weight: 800;
+  font-size: var(--text-sm);
+  color: var(--color-espresso);
+}
+
+.cart-footer {
+  padding: 1.15rem 1.4rem 1.35rem;
+  border-top: 1px solid var(--color-border-subtle);
+  background-color: var(--color-cream);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.cart-total-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cart-total-label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-ink-muted);
+}
+
+.cart-total-amount {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  color: var(--color-espresso);
+}
+
+.cart-checkout-btn {
+  width: 100%;
+  min-height: 3rem;
+}
+
+.cart-clear-btn {
+  align-self: center;
+  min-height: 2.75rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--color-ink-muted);
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out);
+}
+
+.cart-clear-btn:hover {
+  color: var(--color-espresso);
+  background-color: var(--color-cream-soft);
+}
+
+.cart-wa-notice {
+  font-size: var(--text-xs);
+  color: var(--color-ink-muted);
+  line-height: 1.45;
+  text-align: center;
+}
